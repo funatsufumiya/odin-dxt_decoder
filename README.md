@@ -17,5 +17,5 @@ $ git clone https://github.com/funatsufumiya/odin-dxt_decoder $ODIN_ROOT/shared/
 ## Test
 
 ```bash
-odin test .
+odin test tests
 ```
