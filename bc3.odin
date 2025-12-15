@@ -17,6 +17,7 @@ decode_bc3 :: proc(image_data: []u8, width: int, height: int, premultiplied: boo
 			first_alpha := image_data[offset]
 			second_alpha := image_data[offset + 1]
 			alpha_values := interpolate_alpha_values(first_alpha, second_alpha, allocator)
+			defer delete(alpha_values)
 			alpha_indices : [3]u16
 			alpha_indices = {
 				get_u16_le(image_data, offset + 6),
@@ -26,6 +27,7 @@ decode_bc3 :: proc(image_data: []u8, width: int, height: int, premultiplied: boo
 			c0 := get_u16_le(image_data, offset + 8)
 			c1 := get_u16_le(image_data, offset + 10)
 			color_values := interpolate_color_values(c0, c1, false, allocator)
+			defer delete(color_values)
 			color_indices := get_u32_le(image_data, offset + 12)
 
 			for y in 0..<4 {

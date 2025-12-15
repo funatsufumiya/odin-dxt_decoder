@@ -12,6 +12,7 @@ decode_bc1 :: proc(image_data: []u8, width: int, height: int, allocator := conte
 			c0 := get_u16_le(image_data, offset)
 			c1 := get_u16_le(image_data, offset + 2)
 			color_values := interpolate_color_values(c0, c1, true, allocator)
+			defer delete(color_values)
 			color_indices := get_u32_le(image_data, offset + 4)
 
 			for y in 0..<4 {
