@@ -2,10 +2,7 @@
 
 CPU DXT texture decoder. Pure Odin language implementation.
 
-Odin port of https://github.com/kchapelier/decode-dxt (Forked from [v_dxt_decoder](https://github.com/funatsufumiya/v_dxt_decoder).)
-
-> [!WARNING]
-> Odin port was mostly done by GitHub Copilot. Use with care.
+Forked from [v_dxt_decoder](https://github.com/funatsufumiya/v_dxt_decoder).
 
 ## Install (as a odin shared module)
 
@@ -19,4 +16,5 @@ $ git clone https://github.com/funatsufumiya/odin-dxt_decoder $ODIN_ROOT/shared/
 ```bash
 odin test tests
 ```
+
 
