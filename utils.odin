@@ -58,50 +58,50 @@ extract_bits_from_u16_array :: proc(arr: []u16, shift: int, length: int) -> u32 
 interpolate_color_values :: proc (first_val: u16, second_val: u16, is_dxt1: bool, allocator := context.allocator) -> []u8 {
 	first_color := convert_565_to_rgb(first_val)
 	second_color := convert_565_to_rgb(second_val)
-	color_values := new([dynamic]u8, allocator)
-	append_color(color_values, first_color)
-	append(color_values, 255)
-	append_color(color_values, second_color)
-	append(color_values, 255)
+	color_values := make([dynamic]u8, allocator)
+	append_color(&color_values, first_color)
+	append(&color_values, 255)
+	append_color(&color_values, second_color)
+	append(&color_values, 255)
 
 	if is_dxt1 && first_val <= second_val {
-		append(color_values, u8((first_color.r + second_color.r) / 2))
-		append(color_values, u8((first_color.g + second_color.g) / 2))
-		append(color_values, u8((first_color.b + second_color.b) / 2))
-		append(color_values, 255)
+		append(&color_values, u8((first_color.r + second_color.r) / 2))
+		append(&color_values, u8((first_color.g + second_color.g) / 2))
+		append(&color_values, u8((first_color.b + second_color.b) / 2))
+		append(&color_values, 255)
         lst : [4]u8
         lst = {u8(0), u8(0), u8(0), u8(0)}
         for v in lst {
-		    append(color_values, v)
+		    append(&color_values, v)
         }
 	} else {
-		append(color_values, u8(lerp(f32(first_color.r), f32(second_color.r), 1.0/3.0)))
-		append(color_values, u8(lerp(f32(first_color.g), f32(second_color.g), 1.0/3.0)))
-		append(color_values, u8(lerp(f32(first_color.b), f32(second_color.b), 1.0/3.0)))
-		append(color_values, 255)
-		append(color_values, u8(lerp(f32(first_color.r), f32(second_color.r), 2.0/3.0)))
-		append(color_values, u8(lerp(f32(first_color.g), f32(second_color.g), 2.0/3.0)))
-		append(color_values, u8(lerp(f32(first_color.b), f32(second_color.b), 2.0/3.0)))
-		append(color_values, 255)
+		append(&color_values, u8(lerp(f32(first_color.r), f32(second_color.r), 1.0/3.0)))
+		append(&color_values, u8(lerp(f32(first_color.g), f32(second_color.g), 1.0/3.0)))
+		append(&color_values, u8(lerp(f32(first_color.b), f32(second_color.b), 1.0/3.0)))
+		append(&color_values, 255)
+		append(&color_values, u8(lerp(f32(first_color.r), f32(second_color.r), 2.0/3.0)))
+		append(&color_values, u8(lerp(f32(first_color.g), f32(second_color.g), 2.0/3.0)))
+		append(&color_values, u8(lerp(f32(first_color.b), f32(second_color.b), 2.0/3.0)))
+		append(&color_values, 255)
 	}
 	return color_values[:]
 }
 
 @(private)
 interpolate_alpha_values :: proc(first_val: u8, second_val: u8, allocator := context.allocator) -> []u8 {
-    alpha_values := new([dynamic]u8)
-	append(alpha_values, first_val)
-	append(alpha_values, second_val)
+    alpha_values := make([dynamic]u8, allocator)
+	append(&alpha_values, first_val)
+	append(&alpha_values, second_val)
 	if first_val > second_val {
 		for i in 1..<7 {
-			append(alpha_values, u8(f32(first_val) * (1.0 - f32(i)/7.0) + f32(second_val) * (f32(i)/7.0)))
+			append(&alpha_values, u8(f32(first_val) * (1.0 - f32(i)/7.0) + f32(second_val) * (f32(i)/7.0)))
 		}
 	} else {
 		for i in 1..<5 {
-			append(alpha_values, u8(f32(first_val) * (1.0 - f32(i)/5.0) + f32(second_val) * (f32(i)/5.0)))
+			append(&alpha_values, u8(f32(first_val) * (1.0 - f32(i)/5.0) + f32(second_val) * (f32(i)/5.0)))
 		}
-		append(alpha_values, 0)
-		append(alpha_values, 255)
+		append(&alpha_values, 0)
+		append(&alpha_values, 255)
 	}
 	return alpha_values[:]
 }
