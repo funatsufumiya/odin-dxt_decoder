@@ -5,8 +5,9 @@ import dxt_decoder ".."
 
 @(test)
 test_decode_dxt1 :: proc(t: ^testing.T) {
-    data := make([]u8, 8)
-    result, err := dxt_decoder.decode(data, 4, 4, .DXT1)
+    data : [8]u8
+	data = {}
+    result, err := dxt_decoder.decode(data[:], 4, 4, .DXT1)
 	defer delete(result)
     testing.expect_value(t, err, nil)
     testing.expect_value(t, len(result), 4 * 4 * 4)
@@ -14,8 +15,9 @@ test_decode_dxt1 :: proc(t: ^testing.T) {
 
 @(test)
 test_decode_dxt3 :: proc(t: ^testing.T) {
-    data := make([]u8, 16)
-    result, err := dxt_decoder.decode(data, 4, 4, .DXT3)
+    data : [16]u8
+	data = {}
+    result, err := dxt_decoder.decode(data[:], 4, 4, .DXT3)
 	defer delete(result)
     testing.expect_value(t, err, nil)
     testing.expect_value(t, len(result), 4 * 4 * 4)
@@ -23,8 +25,9 @@ test_decode_dxt3 :: proc(t: ^testing.T) {
 
 @(test)
 test_decode_dxt5 :: proc(t: ^testing.T) {
-    data := make([]u8, 16)
-    result, err := dxt_decoder.decode(data, 4, 4, .DXT5)
+    data : [16]u8
+	data = {}
+    result, err := dxt_decoder.decode(data[:], 4, 4, .DXT5)
 	defer delete(result)
     testing.expect_value(t, err, nil)
     testing.expect_value(t, len(result), 4 * 4 * 4)
